@@ -1,0 +1,44 @@
+plugins {
+    id 'java'
+    id 'io.qameta.allure' version '2.9.3'
+}
+
+group 'ru.vtb'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    allureVersion = '2.17.3'
+}
+
+sourceCompatibility = '13'
+targetCompatibility = '13'
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+dependencies {
+    testImplementation('com.codeborne:selenide:5.2.4')
+    testImplementation("io.qameta.allure:allure-selenide:${allureVersion}")
+    testImplementation('org.assertj:assertj-core:3.22.0')
+    testImplementation('org.slf4j:slf4j-simple:1.7.36')
+    implementation group: 'io.appium', name: 'java-client', version: '7.3.0'
+
+    testImplementation('org.testng:testng:7.5')
+}
+
+test {
+    useTestNG()
+}
+allure {
+    autoconfigure = true
+    version = "${allureVersion}"
+
+    useTestNG {
+        version = "${allureVersion}"
+    }
+}
